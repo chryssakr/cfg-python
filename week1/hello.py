@@ -1,3 +1,7 @@
+""""
+Those are docstrings
+"""
+
 print("Hello World!")
 
 # String and operators
