@@ -24,6 +24,5 @@ import math
 eggs_per_box = 6
 eggs_per_omelette = 4
 boxes = 6
-omelettes = eggs_per_box * boxes / eggs_per_omelette
-omelettes = math.trunc(omelettes)
+omelettes = eggs_per_box * boxes // eggs_per_omelette
 print(f'You can make {omelettes} omelettes with {boxes} boxes of eggs.')
