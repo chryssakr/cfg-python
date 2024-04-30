@@ -33,3 +33,6 @@ print(s[-5:-1]) # prints star
 s = 'longerstring'
 print(s[0:7:2]) # the last index indicates the stride
 # if the first and second indexes are omitted they default to the first and last character
+
+apples_string = '12'
+num_of_apples = int(apples_string) # transforms a string to an int
