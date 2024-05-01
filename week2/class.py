@@ -7,6 +7,7 @@
 # age = input("What is your age?")
 # age_next_year = int(age) + 1
 # print(f"Hello, my name is {name}, my age is {age}. Next year I'll be {age_next_year}.")
+# print(f"{name=}, {age=}")
 
 # Exercise 2.2: You have friends at your house for dinner and you've accidentally burnt the lasagne. Time to order pizza.
 # Write a program calculate how many pizzas you need to feed you and your friends
@@ -25,11 +26,31 @@
 # import re -> regular expressions
 # import copy -> duplicating objects
 import datetime
+"""
+%a: Returns the first three characters of the weekday, e.g. Wed.
+%A: Returns the full name of the weekday, e.g. Wednesday.
+%b: Returns the first three characters of the month name.
+%B: Returns the full name of the month, e.g. September.
+%Y: Returns the year in four digit format
+%Y: Returns the year in four-digit format.
+%d: Returns day of the month, from 1 to 31.
+%w: Returns the weekday as a number, from 0 to 6, with Sunday being 0.
+%m: Returns the month as a number, from 01 to 12.
+%p: Returns AM/PM for time.
+%f: Returns microsecond from 000000 to 999999.
+%Z: Returns the timezone.
+%H: Returns the hour.
+%M: Returns the minute, from 00 to 59.
+%S: Returns the second, from 00 to 59.
+"""
 
 x = datetime.datetime.now()
 # help(datetime.datetime.now())
 print(x)
 
+my_date = datetime.date(2020, 12, 31)
+
+print(my_date.strftime("%d-%b-%Y"))
 
 # For loops
 for number in range(4):
