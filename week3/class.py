@@ -134,6 +134,77 @@ import random
 # random_int = random.randint(1, 100)
 # print(random_int)
 
-sides = int(input("How many sides on the die?: "))
-random_int = random.randint(1, sides)
-print(f"You rolled a {random_int}")
+# sides = int(input("How many sides on the die?: "))
+# random_int = random.randint(1, sides)
+# print(f"You rolled a {random_int}")
+
+# Exercise 3.6: This program uses random to simulate a coin flip.
+# To finish the program you will need to add the following:
+# - If the random coin flip matches the choice input by the user then they win
+# - Otherwise if the random coin flip does not match the choice input by the user then they lose
+
+# def flip_coin():
+#     random_number = random.randint(1, 2)
+#     if random_number == 1:
+#         side = "h"
+#     else:
+#         side = "t"
+#     return side
+# user_choice = input("Heads or Tails? h/t")
+# computer_choice = flip_coin()
+# result = user_choice == computer_choice
+# print(f"Result of the flip: {result} {user_choice=} {computer_choice=}")
+
+# Exercise 3.7: This program simulates rock, paper, scissors.
+# The first winning condition has been added. 
+# To finish the program you'll need to add all of the other winning and losing conditions.
+
+# def random_choice():
+#     choice_number = random.randint(1, 3)
+#     if choice_number == 1:
+#         choice = "r"
+#     elif choice_number == 2:
+#         choice = "p"
+#     else:
+#         choice = "s"
+#     return choice
+# user_choice = input("rock, paper or scissors? r/p/s")
+# computer_choice = random_choice()
+# result = user_choice == computer_choice
+# print(f"Result of the flip: {result} {user_choice=} {computer_choice=}")
+
+# Exercise 3.8: Not Quite Roulette
+# Ask the user to enter the following three things using `input()`:
+# - The amount they want to bet
+# - A colour (red or black)
+# - A number between 1 and 100
+# 
+# After generating a random number and colour:
+# - If the colour matches, the users keeps the amount that was bet
+# - If the number matches, the users wins double the amount that was bet
+# - If the colour and number matches, the users wins 100 times the amount that was bet
+# - When neither the colour or number matches the user wins 0
+# - Output the amount the user won
+
+# def colour():
+#     random_number = random.randint(1, 2)
+#     if random_number == 1:
+#         colour = 'red'
+#     else:
+#         colour = 'black'
+#     return colour
+# user_bet = int(input("How much money do you want to bet?"))
+# user_colour = input("Pick a colour, red or black: red/black")
+# user_number = int(input("Pick a number from 1 to 100"))
+# random_number = random.randint(1, 100)
+# random_colour = colour()
+
+# if user_colour == random_colour and user_number == random_number:
+#     amount_won = 100 * user_bet
+# elif user_colour == random_colour:
+#     amount_won = user_bet
+# elif user_number == random_number:
+#     amount_won = 2 * user_bet
+# else:
+#     amount_won = 0
+# print(f"You have won £{amount_won}")
