@@ -69,34 +69,41 @@ def get_lottery_numbers(seed = None):
     """Generates 7 random unique lottery numbers"""
     if seed is not None:
         random.seed(seed)
-        lottery_numbers
+    lottery_numbers = []
+    while len(lottery_numbers) < 7:
+        number = random.randint(1, 49)
+        if number not in lottery_numbers:
+            lottery_numbers.append(number)
     return lottery_numbers
 
-def count_matches(user_numbers, lottery numbers)
+def count_matches(user_numbers, lottery_numbers):
+    """
+    Counts the matches between the user lottery numbers
+    and the generated lottery numbers
+    """
+    return sum(num in lottery_numbers for num in user_numbers)
 
-matches = 0
-for i in range(7):
-    if winning_ticket[i] in ticket:
-        matches += 1
-winning_amounts = {
-    3: 20,
-    4: 40,
-    5: 100,
-    6: 10000,
-    7: 1000000
-}
-if matches > 2:
-    print(f"You had {matches} matches. You won £{winning_amounts[matches]}.")
-else:
-    print(f"You had {matches} matches. You didn't win anything, try again.")
+def determine_prize(match_count):
+    prizes = {
+        3: 20,
+        4: 40,
+        5: 100,
+        6: 10000,
+        7: 1000000
+    }
+    return prizes[match_count]
 
 def main():
     user_numbers = get_user_numbers()
-    lottery_numbers = get_lottery_numbers()
+    lottery_numbers = get_lottery_numbers(28)
     match_count = count_matches(user_numbers, lottery_numbers)
+    prize = determine_prize(match_count)
+    
     print(f"The lottery numbers are: {lottery_numbers}")
     if prize > 0:
-        print("Congratulations! You have won £{prize} with {match_count} matching numbers!")
+        print(f"Congratulations! You have won £{prize} with {match_count} matching numbers!")
+    else:
+        print("Sorry, no matching numbers. Better luck next time!")
 
 if __name__ == "__main__":
     main()
