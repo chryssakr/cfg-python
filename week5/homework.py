@@ -34,16 +34,19 @@ from typing import Any
 import csv
 
 # Get the necessary pokemon ids from the user
-def collect_pokemon_ids(no_of_pokemons: int = 6) -> list[int]:
-    # TODO: make pokemon_ids a set
-    pokemon_ids: list[int] = []
+def collect_pokemon_ids(no_of_pokemons: int = 6) -> set[int]:
+    # initialise pokemon_ids as a set
+    pokemon_ids: set[int] = set()
+    pokemons_in_api = 248
+    print(f"There are {pokemons_in_api} different pokemons to choose from!")
     while len(pokemon_ids) < no_of_pokemons:
-        pokemon_number = int(input("What is the pokemon number you want?: "))
-        if pokemon_number not in pokemon_ids:
-            pokemon_ids.append(pokemon_number)
-            # TODO: check how many pokemon ids there are
+        pokemon_number = int(input(f"Enter number for pokemon no{len(pokemon_ids) + 1}: "))
+        if pokemon_number < 1 or pokemon_number > 248:
+            print(f"The number you gave is out of bounds, please give a number from 1 to {pokemons_in_api}")
+        elif pokemon_number not in pokemon_ids:
+            pokemon_ids.add(pokemon_number)
         else:
-            print("Duplicate entry detected.")
+            print("Duplicate entry detected. Give another number.")
     return pokemon_ids
 
 # Get names and moves for the pokemons
