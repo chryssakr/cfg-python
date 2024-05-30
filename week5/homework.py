@@ -16,9 +16,9 @@ Question 2
 This program should save my data to a file, but it doesn't work when I run it.
 What is the problem and how do I fix it?
 """
-poem = 'I like Python and I am not very good at poems'
-with open('data/poem.txt', 'w+') as poem_file:
-    poem_file.write(poem)
+# poem = 'I like Python and I am not very good at poems'
+# with open('data/poem.txt', 'w+') as poem_file:
+#     poem_file.write(poem)
     
 """
 Question 3
@@ -30,35 +30,51 @@ Save their names and moves into a file called 'pokemon.txt'
 """
 import requests
 from pprint import pprint # pretty print
+from typing import Any
+import csv
 
-pokemon_amount = 6
-pokemon_ids = []
-while len(pokemon_ids) < pokemon_amount:
-    pokemon_number = int(input("What is the pokemon number you want?: "))
-    if pokemon_number not in pokemon_ids:
-        pokemon_ids.append(pokemon_number)
+# Get the necessary pokemon ids from the user
+def collect_pokemon_ids(no_of_pokemons: int = 6) -> list[int]:
+    # TODO: make pokemon_ids a set
+    pokemon_ids: list[int] = []
+    while len(pokemon_ids) < no_of_pokemons:
+        pokemon_number = int(input("What is the pokemon number you want?: "))
+        if pokemon_number not in pokemon_ids:
+            pokemon_ids.append(pokemon_number)
+            # TODO: check how many pokemon ids there are
+        else:
+            print("Duplicate entry detected.")
+    return pokemon_ids
 
-# pokemon_number = input("What is the pokemon number you want?: ")
+# Get names and moves for the pokemons
+def fetch_names_moves(pokemon_ids: list[int]) -> dict[int, dict[str, Any]]:
+    pokemon_dict: dict[int, dict[str, Any]] = {}
+    for pokemon_id in pokemon_ids:
+        url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}/'
+        response = requests.get(url)
+        pokemon = response.json()
+        pokemon_data_dict = dict([("name", pokemon["name"]), ("moves", pokemon["moves"])])
+        pokemon_dict[pokemon_id] = pokemon_data_dict
+    return pokemon_dict
 
-url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_number}/'
-# request data from the API
-response = requests.get(url)
-# print(response) # response 200: everything ok, 400 or 404: errors
+# Write the data from the pokemon dictionary to a file in csv format
+def write_to_csv(pokemon_ids:list[int] ,pokemon_dict: dict[int, dict[str, Any]]) -> None:
+    with open("data/pokemon.csv", "w+", newline = "") as f:
+        field_names = ["id", "name", "moves"]
+        writer = csv.DictWriter(f, fieldnames = field_names)
+        writer.writeheader()
+        for pokemon_id in pokemon_ids:
+            writer.writerow({
+                "id": pokemon_id,
+                "name": pokemon_dict[pokemon_id]['name'],
+                "moves": pokemon_dict[pokemon_id]['moves']
+            })
 
-# turn the data into a json object (it's like a dictionary)
-pokemon = response.json()
-# print(pokemon)
-# pprint(pokemon)
-# pprint(pokemon["name"])
-"""
-**Exercise 5.3:** Get the *height* and *weight* of a specific Pokemon
-and print the output
-Extension: Print the names of all of a specific Pokemon's moves
-"""
-
-height = pokemon["height"]
-weight = pokemon["weight"]
-moves = pokemon["moves"]
-print(f"{height=}, {weight=}")
-for move in moves:
-    print(move["move"]["name"])
+def main() -> None:
+    pokemon_amount = 6
+    pokemon_ids = collect_pokemon_ids(pokemon_amount)
+    pokemon_names_moves = fetch_names_moves(pokemon_ids)
+    write_to_csv(pokemon_ids, pokemon_names_moves)
+    
+if __name__ == "__main__":
+    main()
