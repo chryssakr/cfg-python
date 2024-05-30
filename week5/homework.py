@@ -50,7 +50,7 @@ def collect_pokemon_ids(no_of_pokemons: int = 6) -> set[int]:
     return pokemon_ids
 
 # Get names and moves for the pokemons
-def fetch_names_moves(pokemon_ids: list[int]) -> dict[int, dict[str, Any]]:
+def fetch_names_moves(pokemon_ids: set[int]) -> dict[int, dict[str, Any]]:
     pokemon_dict: dict[int, dict[str, Any]] = {}
     for pokemon_id in pokemon_ids:
         url = f'https://pokeapi.co/api/v2/pokemon/{pokemon_id}/'
@@ -61,7 +61,7 @@ def fetch_names_moves(pokemon_ids: list[int]) -> dict[int, dict[str, Any]]:
     return pokemon_dict
 
 # Write the data from the pokemon dictionary to a file in csv format
-def write_to_csv(pokemon_ids:list[int] ,pokemon_dict: dict[int, dict[str, Any]]) -> None:
+def write_to_csv(pokemon_ids:set[int] ,pokemon_dict: dict[int, dict[str, Any]]) -> None:
     with open("data/pokemon.csv", "w+", newline = "") as f:
         field_names = ["id", "name", "moves"]
         writer = csv.DictWriter(f, fieldnames = field_names)
