@@ -1,36 +1,56 @@
+"""
+before running the program install these libraries if you don't have them
+run this on the terminal:
+pip install pandas
+pip install scipy
+"""
 import pandas as pd
 from pprint import pprint
+from scipy.stats import pearsonr # type: ignore
 
-# Get average speechiness and danceability per album
+# Get mean speechiness and danceability per album
 def find_mean_speechiness_danceability(df):
-    album_info = {}
-    album_start = 0
-    # I start from 1 because I'm comparing the current album with the previous
-    # in that way I won't go out of the bounds
-    for i in range(1, len(df["album"])):
-        # When the name of the album changes means I've reached the end of the album
-        # So I can now find the mean speechiness and danceability of the album
-        if df["album"][i] != df["album"][i - 1]:
-            album_end = i - 1
-            album_mean_speechiness = df.loc[album_start:album_end, "speechiness"].mean()
-            album_mean_speechiness = round(album_mean_speechiness, 4) # rounding to 4 digits
-            
-            album_mean_danceability = df.loc[album_start:album_end, "danceability"].mean()
-            album_mean_danceability = round(album_mean_danceability, 4) # rounding to 4 digits
-            
-            # I store the mean values in a dictionary
-            album_means = dict([("speechiness", album_mean_speechiness), ("danceability", album_mean_danceability)])
-            # I store everything in another dictionary with the name of the album as key
-            # and the mean values dictionary as the value
-            album_info[df["album"][album_start]] = album_means
-            # I set the first position of the next album as the start for the next iteration
-            album_start = i
-    return album_info
+    # I'm using groupby() pandas function to calculate the mean speechiness
+    # and danceability per album
+    # I first group by "album" name and then use the agg function to specify
+    # the "mean" aggregation function for the "speechiness" and "danceability" columns
+    mean_values = df.groupby("album").agg({
+        "speechiness": "mean",
+        "danceability": "mean"
+    }).reset_index() # this is creating an index column  
+    return mean_values
+
+# Calculate the Pearson correlation coefficient (PCC)
+def calc_pearsonr(mean_values):
+    correlation, p_value = pearsonr(mean_values["speechiness"], mean_values["danceability"])
+    p_value = round(p_value, 4)
+    return [correlation, p_value]
+
+# Interpret the correlation and p_value
+# Store in a dictionary with the type of relation/evidence and a message to print for each case.
+def interpret_correlation(correlation, p_value):
+    results = {}
+    if correlation > 0:
+        results["relationship"] = {"type": "positive", "message": "As the one variable increases, the other variable increases as well."}
+    elif correlation < 0:
+        results["relationship"] = {"type": "negative", "message": "As the one variable increases, the other variable decreases."}
+    else:
+        results["relationship"] = {"type": "no", "message": "The way the variables change is not correlated."}
+    if p_value <= 0.05:
+        results["evidence"] = {"type": "strong", "message": "A p_value equal to or less than 0.05 indicates that the observed correlation is unlikely to have occurred by chance alone, and there is likely a true correlation in the population."}
+    else:
+        results["evidence"] = {"type": "weak", "message": "A p_value more than than 0.05 indicates that there may not be a significant correlation present in the population, and the observed correlation could have plausibly occurred by chance."}
+    return results
 
 def main():
     df = pd.read_csv("data/taylor_swift_spotify.csv")
-    album_info = find_mean_speechiness_danceability(df)
-    pprint(album_info) # pretty print
-    
+    mean_values = find_mean_speechiness_danceability(df)
+    [correlation, p_value] = calc_pearsonr(mean_values)
+    results = interpret_correlation(correlation, p_value)
+    print("I correlated the mean speechiness and danceability per album of Taylor Swift.\n")
+    print(f"The mean speechiness and danceability per album: \n{mean_values}\n")
+    print(f"There is a {results["relationship"]["type"]} relationship. {results["relationship"]["message"]}\n")
+    print(f"The evidence of this correlation is {results["evidence"]["type"]} with a p_value of {p_value}. {results["evidence"]["message"]}")
+
 if __name__ == "__main__":
     main()
