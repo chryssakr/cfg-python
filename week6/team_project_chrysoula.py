@@ -4,6 +4,7 @@ run this on the terminal:
 pip install pandas
 pip install scipy
 """
+import os
 import pandas as pd
 # ignore type because scipy.stats library does not have library stubs
 from scipy.stats import pearsonr # type: ignore
@@ -75,7 +76,14 @@ def main():
     calculates the Pearson correlation coefficient and p-value,
     and interprets the correlation results.
     """
-    df = pd.read_csv("data/taylor_swift_spotify.csv")
+    # check if the file exists
+    file_path = "data/taylor_swift_spotify.csv"
+    if not os.path.exists(file_path):
+        print("Error: Data file not found.")
+        return
+    with open(file_path, "r") as f:
+        df = pd.read_csv(f)
+        
     mean_values = find_mean_speechiness_danceability(df)
     correlation, p_value = calc_pearsonr(mean_values)
     results = interpret_correlation(correlation, p_value)
