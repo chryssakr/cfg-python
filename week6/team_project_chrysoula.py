@@ -8,12 +8,20 @@ import pandas as pd
 # ignore type because scipy.stats library does not have library stubs
 from scipy.stats import pearsonr # type: ignore
 
-# Get mean speechiness and danceability per album
 def find_mean_speechiness_danceability(df: pd.DataFrame) -> pd.DataFrame:
-    # I'm using groupby() pandas function to calculate the mean speechiness
-    # and danceability per album
-    # I first group by "album" name and then use the agg function to specify
-    # the "mean" aggregation function for the "speechiness" and "danceability" columns
+    """
+    Calculate the mean speechiness and danceability per album.
+    I'm using groupby() pandas function to calculate the mean speechiness
+    and danceability per album
+    I first group by "album" name and then use the agg function to specify
+    the "mean" aggregation function for the "speechiness" and "danceability" columns
+    
+    Args:
+        df (pd.DataFrame): DataFrame containing the data with columns "album", "speechiness", and "danceability".
+
+    Returns:
+        pd.DataFrame: DataFrame with columns "album", "mean_speechiness", and "mean_danceability" representing the mean values per album.
+    """
     mean_values = df.groupby("album").agg({
         "speechiness": "mean",
         "danceability": "mean"
@@ -22,13 +30,30 @@ def find_mean_speechiness_danceability(df: pd.DataFrame) -> pd.DataFrame:
 
 # Calculate the Pearson correlation coefficient (PCC)
 def calc_pearsonr(mean_values: pd.DataFrame) -> tuple[float, float]:
+    """
+    Calculate the Pearson correlation coefficient and p-value between mean speechiness and danceability.
+
+    Args:
+        mean_values (pd.DataFrame): DataFrame with columns "album", "mean_speechiness", and "mean_danceability".
+
+    Returns:
+        tuple[float, float]: Pearson correlation coefficient and p-value.
+    """
     correlation, p_value = pearsonr(mean_values["speechiness"], mean_values["danceability"])
     p_value = round(p_value, 4)
     return correlation, p_value
 
-# Interpret the correlation and p_value
-# Store in a dictionary with the type of relation/evidence and a message to print for each case.
 def interpret_correlation(correlation: float, p_value: float) -> dict:
+    """
+    Interpret the correlation and p-value results.
+    
+    Args:
+        correlation (float): Pearson correlation coefficient.
+        p_value (float): p-value associated with the correlation coefficient.
+
+    Returns:
+        dict: A dictionary containing the interpretation results including the relationship type and evidence type.
+    """
     results = {}
     if correlation > 0:
         results["relationship"] = {"type": "positive", "message": "As the one variable increases, the other variable increases as well."}
@@ -43,6 +68,13 @@ def interpret_correlation(correlation: float, p_value: float) -> dict:
     return results
 
 def main():
+    """
+    Perform analysis on Taylor Swift's Spotify data.
+
+    Reads the data, calculates mean speechiness and danceability per album, 
+    calculates the Pearson correlation coefficient and p-value,
+    and interprets the correlation results.
+    """
     df = pd.read_csv("data/taylor_swift_spotify.csv")
     mean_values = find_mean_speechiness_danceability(df)
     correlation, p_value = calc_pearsonr(mean_values)
