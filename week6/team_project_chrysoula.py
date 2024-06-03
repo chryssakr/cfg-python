@@ -5,11 +5,11 @@ pip install pandas
 pip install scipy
 """
 import pandas as pd
-from pprint import pprint
+# ignore type because scipy.stats library does not have library stubs
 from scipy.stats import pearsonr # type: ignore
 
 # Get mean speechiness and danceability per album
-def find_mean_speechiness_danceability(df):
+def find_mean_speechiness_danceability(df: pd.DataFrame) -> pd.DataFrame:
     # I'm using groupby() pandas function to calculate the mean speechiness
     # and danceability per album
     # I first group by "album" name and then use the agg function to specify
@@ -21,14 +21,14 @@ def find_mean_speechiness_danceability(df):
     return mean_values
 
 # Calculate the Pearson correlation coefficient (PCC)
-def calc_pearsonr(mean_values):
+def calc_pearsonr(mean_values: pd.DataFrame) -> tuple[float, float]:
     correlation, p_value = pearsonr(mean_values["speechiness"], mean_values["danceability"])
     p_value = round(p_value, 4)
-    return [correlation, p_value]
+    return correlation, p_value
 
 # Interpret the correlation and p_value
 # Store in a dictionary with the type of relation/evidence and a message to print for each case.
-def interpret_correlation(correlation, p_value):
+def interpret_correlation(correlation: float, p_value: float) -> dict:
     results = {}
     if correlation > 0:
         results["relationship"] = {"type": "positive", "message": "As the one variable increases, the other variable increases as well."}
@@ -45,7 +45,7 @@ def interpret_correlation(correlation, p_value):
 def main():
     df = pd.read_csv("data/taylor_swift_spotify.csv")
     mean_values = find_mean_speechiness_danceability(df)
-    [correlation, p_value] = calc_pearsonr(mean_values)
+    correlation, p_value = calc_pearsonr(mean_values)
     results = interpret_correlation(correlation, p_value)
     print("I correlated the mean speechiness and danceability per album of Taylor Swift.\n")
     print(f"The mean speechiness and danceability per album: \n{mean_values}\n")
