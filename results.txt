@@ -1,0 +1,96 @@
+This dataset has 29 albums. They are: 
+1. Taylor Swift
+2. Live From Clear Channel Stripped 2008
+3. Fearless
+4. Fearless Platinum Edition
+5. Speak Now
+6. Speak Now (Deluxe Edition)
+7. Speak Now World Tour Live
+8. Red (Deluxe Edition)
+9. Red
+10. 1989
+11. 1989 (Deluxe Edition)
+12. reputation Stadium Tour Surprise Song Playlist
+13. reputation
+14. Lover
+15. folklore
+16. folklore (deluxe version)
+17. folklore: the long pond studio sessions (from the Disney+ special) [deluxe edition]
+18. evermore
+19. evermore (deluxe version)
+20. Fearless (Taylor's Version)
+21. Red (Taylor's Version)
+22. Midnights
+23. Midnights (3am Edition)
+24. Midnights (The Til Dawn Edition)
+25. Speak Now (Taylor's Version)
+26. 1989 (Taylor's Version)
+27. 1989 (Taylor's Version) [Deluxe]
+28. THE TORTURED POETS DEPARTMENT
+29. THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY
+
+Mean values:
+    popularity  speechiness  danceability    energy       tempo
+0    57.076923     0.066300      0.649385  0.699077  124.089308
+1    49.210526     0.173453      0.633211  0.624842  127.033053
+2    75.619048     0.050805      0.627571  0.662000  117.111714
+3    64.318182     0.052536      0.626500  0.661182  119.519727
+4    49.538462     0.032992      0.592769  0.637308  113.235462
+5    67.115385     0.037854      0.551038  0.639115  131.237231
+6    40.526316     0.031905      0.575947  0.601053  123.089263
+7    34.000000     0.045125      0.548125  0.598875  137.639000
+8    78.277778     0.099117      0.658222  0.545222  119.972722
+9    76.846154     0.103669      0.639615  0.408692  117.307538
+10   65.400000     0.101970      0.620750  0.452550  124.007050
+11   65.391304     0.095478      0.624348  0.472261  121.134000
+12   43.562500     0.038619      0.622875  0.619563  109.684438
+13   42.090909     0.036577      0.633364  0.600773  110.296727
+14   68.966667     0.042250      0.576967  0.586900  124.361633
+15   53.071429     0.037586      0.544929  0.663286  138.864857
+16   46.250000     0.034670      0.556450  0.647900  136.375600
+17   71.636364     0.038409      0.555636  0.658273  130.155909
+18   43.437500     0.040881      0.441312  0.650250  122.616375
+19   84.187500     0.068238      0.551312  0.452937  119.574187
+20   87.935484     0.056935      0.532419  0.457290  124.942452
+21   58.333333     0.032687      0.545267  0.664267  126.053800
+22   68.800000     0.061100      0.518867  0.491333  117.479067
+23   66.705882     0.057906      0.526824  0.494059  120.707294
+24   75.187500     0.040544      0.557500  0.425063  116.147000
+25   67.411765     0.039482      0.541941  0.415824  119.884412
+26   51.205882     0.037721      0.551441  0.373412  116.098559
+27   77.866667     0.095120      0.657933  0.582867  127.540133
+28   33.913043     0.040909      0.593130  0.653457  122.439978
+
+CORRELATION MATRIX
+                  acousticness  danceability  energy  instrumentalness  liveness  loudness  speechiness   tempo  valence  popularity
+acousticness            1.0000       -0.1818 -0.7112            0.1433   -0.1345   -0.7235       0.0451 -0.0614  -0.2094      0.1446
+danceability           -0.1818        1.0000  0.0350           -0.0708   -0.1360    0.0165       0.1677 -0.2344   0.3089      0.0011
+energy                 -0.7112        0.0350  1.0000           -0.0815    0.1567    0.7939      -0.0705  0.1720   0.4795     -0.1517
+instrumentalness        0.1433       -0.0708 -0.0815            1.0000   -0.0416   -0.1946      -0.0264 -0.0056  -0.0695      0.0299
+liveness               -0.1345       -0.1360  0.1567           -0.0416    1.0000    0.1200       0.0842 -0.0280  -0.0600     -0.1633
+loudness               -0.7235        0.0165  0.7939           -0.1946    0.1200    1.0000      -0.2427  0.1220   0.3522     -0.2432
+speechiness             0.0451        0.1677 -0.0705           -0.0264    0.0842   -0.2427       1.0000  0.0479   0.0516      0.0531
+tempo                  -0.0614       -0.2344  0.1720           -0.0056   -0.0280    0.1220       0.0479  1.0000   0.0842     -0.0134
+valence                -0.2094        0.3089  0.4795           -0.0695   -0.0600    0.3522       0.0516  0.0842   1.0000     -0.1173
+popularity              0.1446        0.0011 -0.1517            0.0299   -0.1633   -0.2432       0.0531 -0.0134  -0.1173      1.0000
+-------Some examples on how to interpret our data:-------
+
+Correlating speechiness & popularity.
+There is a positive relationship. As the one variable increases, the other variable increases as well.
+The evidence of this correlation is weak with a p_value of 0.2026.
+A p_value more than than 0.05 indicates that there may not be a significant correlation present in the population, and the observed correlation could have plausibly occurred by chance.
+
+Correlating danceability & popularity.
+There is a positive relationship. As the one variable increases, the other variable increases as well.
+The evidence of this correlation is weak with a p_value of 0.9788.
+A p_value more than than 0.05 indicates that there may not be a significant correlation present in the population, and the observed correlation could have plausibly occurred by chance.
+
+Correlating energy & popularity.
+There is a negative relationship. As the one variable increases, the other variable decreases.
+The evidence of this correlation is strong with a p_value of 0.0003.
+A p_value equal to or less than 0.05 indicates that the observed correlation is unlikely to have occurred by chance alone, and there is likely a true correlation in the population.
+
+Correlating tempo & popularity.
+There is a negative relationship. As the one variable increases, the other variable decreases.
+The evidence of this correlation is weak with a p_value of 0.7473.
+A p_value more than than 0.05 indicates that there may not be a significant correlation present in the population, and the observed correlation could have plausibly occurred by chance.
